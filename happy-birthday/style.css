@@ -1,0 +1,607 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --pink-hot: #ff3d8b;
+  --pink-mid: #ff79b0;
+  --pink-light: #ffb6d9;
+  --cream: #fff5f0;
+  --cream-dark: #f5e6e0;
+  --text-dark: #3a1a2e;
+  --text-mid: #7a4060;
+  --gold: #ffd166;
+}
+body {
+  font-family: "Quicksand", sans-serif;
+  background: linear-gradient(
+    135deg,
+    #ffe0ec 0%,
+    #ffc8dd 30%,
+    #ffd6e7 60%,
+    #ffecf5 100%
+  );
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Floating hearts background */
+.bg-hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.bg-heart {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.15;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp {
+  0% {
+    transform: translateY(110vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.15;
+  }
+  90% {
+    opacity: 0.15;
+  }
+  100% {
+    transform: translateY(-10vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* ---- WINDOW CHROME ---- */
+.win {
+  position: relative;
+  z-index: 10;
+  background: var(--cream);
+  border: 2.5px solid var(--text-dark);
+  border-radius: 12px;
+  box-shadow: 6px 6px 0 var(--text-dark), 0 0 0 1px var(--pink-hot);
+  width: min(400px, 92vw);
+  overflow: hidden;
+  animation: winPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes winPop {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.win-bar {
+  background: var(--pink-hot);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--text-dark);
+}
+.win-dots {
+  display: flex;
+  gap: 6px;
+}
+.win-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.3);
+}
+.win-dot.red {
+  background: #ff5f57;
+}
+.win-dot.yellow {
+  background: #ffbd2e;
+}
+.win-dot.green {
+  background: #28ca41;
+}
+.win-title {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.5rem;
+  color: white;
+  letter-spacing: 1px;
+}
+.win-body {
+  padding: 28px 24px;
+  text-align: center;
+}
+
+/* ---- SCREENS ---- */
+.screen {
+  display: none;
+}
+.screen.active {
+  display: block;
+}
+
+/* ---- SCREEN 1: CURTAIN ---- */
+#screen-curtain .curtain-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ff79b0, #ff3d8b);
+  margin-bottom: 20px;
+}
+.curtain-stripes {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+.curtain-stripe {
+  flex: 1;
+  background: linear-gradient(180deg, #ff9eca, #ff3d8b, #c0185e);
+  transition: transform 1.5s cubic-bezier(0.77, 0, 0.18, 1);
+  transform-origin: top center;
+}
+.curtain-stripe:nth-child(odd) {
+  background: linear-gradient(180deg, #ff79b0, #c0185e);
+}
+.curtain-open .curtain-stripe:nth-child(odd) {
+  transform: scaleY(0);
+}
+.curtain-open .curtain-stripe:nth-child(even) {
+  transform: scaleY(0);
+  transition-delay: 0.05s;
+}
+.seal-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff79b0, var(--pink-hot));
+  border: 3px solid white;
+  box-shadow: 0 4px 15px rgba(255, 61, 139, 0.5);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: transform 0.1s;
+  z-index: 5;
+}
+.seal-btn:active {
+  transform: translate(-50%, -50%) scale(0.92);
+}
+.seal-btn span {
+  font-size: 1.3rem;
+}
+.seal-btn small {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.28rem;
+  color: white;
+  letter-spacing: 0.5px;
+}
+.curtain-hint {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.38rem;
+  color: var(--text-mid);
+  letter-spacing: 0.5px;
+  line-height: 1.8;
+}
+
+/* ---- SCREEN 2: COUNTDOWN ---- */
+#screen-count .count-num {
+  font-family: "Press Start 2P", monospace;
+  font-size: 4.5rem;
+  color: var(--pink-hot);
+  line-height: 1;
+  margin: 20px 0;
+  animation: countPulse 0.6s ease-out;
+}
+@keyframes countPulse {
+  0% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.dot-loader {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 16px;
+}
+.dot-loader span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pink-light);
+  animation: dotBounce 1.2s ease-in-out infinite;
+}
+.dot-loader span:nth-child(1) {
+  animation-delay: 0s;
+  background: var(--pink-hot);
+}
+.dot-loader span:nth-child(2) {
+  animation-delay: 0.2s;
+  background: var(--pink-mid);
+}
+.dot-loader span:nth-child(3) {
+  animation-delay: 0.4s;
+  background: var(--pink-light);
+}
+@keyframes dotBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ---- SCREEN 3: LOADING ---- */
+#screen-load .load-emoji {
+  font-size: 3.5rem;
+  animation: spin 2s linear infinite;
+  display: block;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+#screen-load p {
+  font-family: "VT323", monospace;
+  font-size: 1.3rem;
+  color: var(--pink-hot);
+  margin: 14px 0 10px;
+  letter-spacing: 1px;
+}
+
+/* ---- SCREEN 4: PARTY ---- */
+#screen-party .party-emoji {
+  font-size: 3.5rem;
+  animation: wiggle 1s ease-in-out infinite;
+  display: block;
+}
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
+#screen-party h2 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.7rem;
+  color: var(--pink-hot);
+  line-height: 1.9;
+  margin: 16px 0 8px;
+}
+#screen-party p {
+  font-size: 0.8rem;
+  color: var(--text-mid);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* ---- SCREEN 5: CAKE ---- */
+#screen-cake h3 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  color: var(--pink-hot);
+  line-height: 1.8;
+  margin-bottom: 4px;
+}
+#screen-cake small {
+  font-size: 0.65rem;
+  color: var(--text-mid);
+  display: block;
+  margin-bottom: 12px;
+}
+.cake-canvas-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 16px;
+  cursor: crosshair;
+}
+#cake-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+.cake-emoji-display {
+  font-size: 7rem;
+  line-height: 1;
+  display: block;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  margin-top: 10px;
+}
+.cake-progress {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.45rem;
+  color: var(--pink-hot);
+  margin-top: 8px;
+  transition: all 0.3s;
+}
+
+/* ---- SCREEN 6: GALLERY ---- */
+#screen-gallery h3 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  color: var(--pink-hot);
+  margin-bottom: 4px;
+  line-height: 1.8;
+}
+#screen-gallery small {
+  font-size: 0.65rem;
+  color: var(--text-mid);
+  display: block;
+  margin-bottom: 14px;
+}
+.gallery-slider {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 2px solid var(--pink-light);
+  margin-bottom: 12px;
+  touch-action: pan-y;
+}
+.gallery-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.gallery-slide {
+  min-width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream-dark);
+  position: relative;
+  flex-direction: column;
+  gap: 8px;
+}
+.gallery-slide .photo-placeholder {
+  width: 140px;
+  height: 160px;
+  border-radius: 8px;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+  background: linear-gradient(135deg, var(--pink-light), var(--pink-mid));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.45rem;
+  text-align: center;
+  line-height: 1.8;
+  padding: 8px;
+}
+.gallery-slide img {
+  width: 140px;
+  height: 160px;
+  border-radius: 8px;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  object-fit: cover;
+}
+.gallery-slide .slide-label {
+  font-family: "VT323", monospace;
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  letter-spacing: 1px;
+}
+.gallery-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pink-light);
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+.gallery-dot.active {
+  background: var(--pink-hot);
+  transform: scale(1.3);
+}
+
+/* ---- SCREEN 7: LETTER ---- */
+#screen-letter h3 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.6rem;
+  color: var(--pink-hot);
+  line-height: 1.8;
+  margin-bottom: 4px;
+}
+#screen-letter small {
+  font-size: 0.65rem;
+  color: var(--text-mid);
+  display: block;
+  margin-bottom: 14px;
+}
+.letter-envelope {
+  background: white;
+  border: 2px solid var(--pink-light);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-bottom: 14px;
+  position: relative;
+}
+.letter-envelope.sealed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 120px;
+  cursor: pointer;
+}
+.wax-seal {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff79b0, var(--pink-hot));
+  border: 3px solid white;
+  box-shadow: 0 4px 15px rgba(255, 61, 139, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  animation: sealPulse 2s ease-in-out infinite;
+}
+@keyframes sealPulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 15px rgba(255, 61, 139, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(255, 61, 139, 0.8);
+  }
+}
+.wax-seal:active {
+  transform: scale(0.9);
+}
+.seal-label {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.35rem;
+  color: var(--text-mid);
+  letter-spacing: 1px;
+}
+.letter-content {
+  font-family: "VT323", monospace;
+  font-size: 1.05rem;
+  color: var(--text-dark);
+  line-height: 1.7;
+  display: none;
+}
+.letter-content.open {
+  display: block;
+}
+.letter-content .letter-name {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--pink-hot);
+  margin-bottom: 10px;
+}
+
+/* ---- SCREEN 8: FINALE ---- */
+#screen-finale {
+  text-align: center;
+}
+#screen-finale h2 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.75rem;
+  color: var(--pink-hot);
+  line-height: 2;
+  margin: 16px 0 8px;
+}
+#screen-finale p {
+  font-size: 0.9rem;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+.confetti-rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+.confetto {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+  top: -10px;
+}
+@keyframes confettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ---- SHARED BUTTON ---- */
+.btn-pink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--pink-hot);
+  color: white;
+  border: 2px solid var(--text-dark);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.5rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--text-dark);
+  transition: transform 0.1s, box-shadow 0.1s;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+}
+.btn-pink:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--text-dark);
+}
+.btn-pink:hover {
+  background: #e0006e;
+}
+
+/* scrollbar for letter */
+.letter-envelope::-webkit-scrollbar {
+  width: 4px;
+}
+.letter-envelope::-webkit-scrollbar-thumb {
+  background: var(--pink-light);
+  border-radius: 4px;
+}

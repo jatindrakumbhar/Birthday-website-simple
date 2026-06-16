@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Special Birthday Gift for Chiku 🎀</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&family=Quicksand:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- Floating background hearts -->
+    <div class="bg-hearts" id="bgHearts"></div>
+    <!-- Confetti layer -->
+    <div class="confetti-rain" id="confettiRain"></div>
+    <!-- THE WINDOW -->
+    <div class="win" id="mainWin">
+      <div class="win-bar">
+        <div class="win-dots">
+          <div class="win-dot red"></div>
+          <div class="win-dot yellow"></div>
+          <div class="win-dot green"></div>
+        </div>
+        <div class="win-title" id="winTitle">HAPPY BIRTHDAY.EXE</div>
+      </div>
+      <div class="win-body">
+        <!-- SCREEN 1: CURTAIN -->
+        <div class="screen active" id="screen-curtain">
+          <div class="curtain-wrap" id="curtainWrap">
+            <div class="curtain-stripes" id="curtainStripes">
+              <div class="curtain-stripe"></div>
+              <div class="curtain-stripe"></div>
+              <div class="curtain-stripe"></div>
+              <div class="curtain-stripe"></div>
+              <div class="curtain-stripe"></div>
+              <div class="curtain-stripe"></div>
+              <div class="curtain-stripe"></div>
+              <div class="curtain-stripe"></div>
+            </div>
+            <button class="seal-btn" id="sealBtn">
+              <span>🤍</span> <small>PRESS</small>
+            </button>
+          </div>
+          <p class="curtain-hint">HOLD THE SEAL TO<br />UNFOLD THE CURTAIN</p>
+        </div>
+        <!-- SCREEN 2: COUNTDOWN -->
+        <div class="screen" id="screen-count">
+          <div class="count-num" id="countNum">3</div>
+          <div class="dot-loader"><span></span><span></span><span></span></div>
+        </div>
+        <!-- SCREEN 3: LOADING -->
+        <div class="screen" id="screen-load">
+          <span class="load-emoji">🎀</span>
+          <p>Loading your birthday<br />surprise...</p>
+          <div class="dot-loader"><span></span><span></span><span></span></div>
+        </div>
+        <!-- SCREEN 4: PARTY -->
+        <div class="screen" id="screen-party">
+          <span class="party-emoji">🐱</span>
+          <h2>My girl was born<br />24 years ago today!</h2>
+          <p>✨ Yes, it's YOU! A little<br />surprise awaits... ✨</p>
+          <button class="btn-pink" onclick="goTo('cake')">
+            🎁 START THE SURPRISE
+          </button>
+        </div>
+        <!-- SCREEN 5: CAKE -->
+        <div class="screen" id="screen-cake">
+          <h3>Swipe to Cut<br />the Cake! 🎂</h3>
+          <small>Drag your finger/cursor inside to slice</small>
+          <div class="cake-canvas-wrap" id="cakeWrap">
+            <div class="cake-emoji-display">🎂</div>
+            <canvas id="cake-canvas"></canvas>
+          </div>
+          <div class="cake-progress" id="cakeProgress">0% sliced</div>
+        </div>
+        <!-- SCREEN 6: GALLERY -->
+        <div class="screen" id="screen-gallery">
+          <h3>Some pics for YOU 📸</h3>
+          <small>Swipe through some beautiful moments</small>
+          <div class="gallery-slider" id="gallerySlider">
+            <div class="gallery-track" id="galleryTrack">
+              <!-- Slides injected by JS -->
+            </div>
+          </div>
+          <div class="gallery-dots" id="galleryDots"></div>
+          <button class="btn-pink" onclick="goTo('letter')">
+            💌 READ LETTER →
+          </button>
+        </div>
+        <!-- SCREEN 7: LETTER -->
+        <div class="screen" id="screen-letter">
+          <h3>A Letter For You 💌</h3>
+          <small>Tap the wax seal to open your special message</small>
+          <div
+            class="letter-envelope sealed"
+            id="letterEnvelope"
+            onclick="openLetter()"
+          >
+            <div class="wax-seal" id="waxSeal">🤍</div>
+            <span class="seal-label">TAP TO OPEN</span>
+          </div>
+          <div id="letterAfterBtn" style="display: none">
+            <button class="btn-pink" onclick="goTo('finale')">
+              🎉 FINISH →
+            </button>
+          </div>
+        </div>
+        <!-- SCREEN 8: FINALE -->
+        <div class="screen" id="screen-finale">
+          <div style="font-size: 3rem">🎉🎂🎀</div>
+          <h2>Happy Birthday,<br />My Love!</h2>
+          <p>
+            Wishing you the most beautiful year yet. You deserve every bit of
+            joy coming your way. 💖
+          </p>
+          <button
+            class="btn-pink"
+            onclick="restartAll()"
+            style="margin-top: 16px"
+          >
+            🔄 REPLAY
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
